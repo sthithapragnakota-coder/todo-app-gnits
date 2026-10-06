@@ -1,7 +1,6 @@
 require("dotenv").config();
 const express = require("express");
 const mongoose = require("mongoose");
-const path = require("path");
 const cors = require("cors");
 const todoRoutes = require("./routes/todoRoutes");
 
@@ -30,18 +29,8 @@ app.use("/api", (req, res, next) => {
 // API routes
 app.use("/api/todos", todoRoutes);
 
-// Serve React build
-const buildPath = path.join(__dirname, "../client/dist");
-app.use(express.static(buildPath));
-
-app.get("/{*splat}", (req, res) => {
-  res.sendFile(path.join(buildPath, "index.html"));
-});
-
-// Render provides PORT
 const PORT = process.env.PORT || 5001;
 
-// Connect MongoDB and start server
 mongoose
   .connect(process.env.MONGO_URI)
   .then(() => {
