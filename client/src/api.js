@@ -1,12 +1,14 @@
-const API_URL = "/api/todos";
+const API_URL = `${import.meta.env.VITE_API_URL}/api/todos`;
 
 const request = async (url, options) => {
   const res = await fetch(url, options);
   const text = await res.text();
   const data = text ? JSON.parse(text) : null;
+
   if (!res.ok) {
     throw new Error(data?.message || `Request failed: ${res.status}`);
   }
+
   return data;
 };
 
@@ -27,4 +29,6 @@ export const updateTodo = (id, data) =>
   });
 
 export const deleteTodo = (id) =>
-  request(`${API_URL}/${id}`, { method: "DELETE" });
+  request(`${API_URL}/${id}`, {
+    method: "DELETE",
+  });
